@@ -35,9 +35,9 @@
   @media (max-width:720px){.container{padding:0 20px}}
 
   /* ---- HEADER ---- */
-  .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.2) blur(10px);border-bottom:1px solid rgba(7,51,164,.08);overflow:hidden}
+  .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.2) blur(10px);border-bottom:1px solid rgba(7,51,164,.08)}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 0;overflow:visible}
-  .nav-logo{width:160px!important;height:auto!important;max-width:none!important;flex-shrink:0;display:block}
+  .nav-logo{width:160px;height:auto;max-width:140px;flex-shrink:1;display:block}
   .nav-links{display:flex;gap:28px;font-weight:500;font-size:14px;color:var(--gray-800)}
   .nav-links a:hover{color:var(--blue)}
   .nav-cta{display:flex;align-items:center;gap:14px}
@@ -279,7 +279,7 @@
   /* ── Tablette ── */
   @media(max-width:768px){
     .nav-links{display:none}
-    .nav-cta .btn-outline{font-size:12px !important;padding:6px 12px !important}
+    .nav-cta .btn-outline{display:none !important}
     .hero-grid{grid-template-columns:1fr !important}
     .stats-inner{grid-template-columns:repeat(2,1fr)}
     .g-grid{grid-template-columns:1fr !important}
@@ -292,9 +292,10 @@
   }
   /* ── Mobile ── */
   @media(max-width:480px){
-    .nav-logo{height:40px !important}
-    .nav-cta{gap:8px}
-    .nav-cta .btn-outline{font-size:11px !important;padding:5px 10px !important;white-space:nowrap}
+    .nav-logo{height:34px;width:auto;max-width:120px}
+    .nav-cta{gap:0}
+    .nav-cta .btn-outline{display:none !important}
+    .nav-cta .btn-primary{font-size:13px;padding:10px 16px}
     .hero-title{font-size:clamp(26px,7vw,38px) !important}
     .hero-sub{font-size:15px !important}
     .hero-ctas{flex-direction:column;gap:10px}

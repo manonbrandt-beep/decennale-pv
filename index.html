@@ -35,9 +35,21 @@
   @media (max-width:720px){.container{padding:0 20px}}
 
   /* ---- HEADER ---- */
-  .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.2) blur(10px);border-bottom:1px solid rgba(7,51,164,.08)}
+  .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.2) blur(10px);border-bottom:1px solid rgba(7,51,164,.08)}
+  /* Mobile menu */
+  .nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:8px;cursor:pointer;width:40px;height:40px;flex-shrink:0}
+  .nav-burger span{display:block;width:22px;height:2px;background:var(--blue);border-radius:2px;transition:all .25s ease;transform-origin:center}
+  .nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+  .nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-mobile-menu{display:none;flex-direction:column;background:#fff;border-top:1px solid rgba(7,51,164,.08);padding:8px 0 16px}
+  .nav-mobile-menu.open{display:flex}
+  .nav-mobile-link{padding:14px 24px;font-size:15px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--gray-100);transition:background .15s}
+  .nav-mobile-link:last-child{border-bottom:none}
+  .nav-mobile-link:active,.nav-mobile-link:hover{background:var(--blue-50);color:var(--blue)}
+  .nav-mobile-already{color:var(--blue);font-weight:700}
   .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 0;overflow:visible}
-  .nav-logo{width:160px;height:auto;max-width:140px;flex-shrink:1;display:block}
+  .nav-logo{width:auto;height:44px;max-width:180px;flex-shrink:0;display:block}
   .nav-links{display:flex;gap:28px;font-weight:500;font-size:14px;color:var(--gray-800)}
   .nav-links a:hover{color:var(--blue)}
   .nav-cta{display:flex;align-items:center;gap:14px}
@@ -279,7 +291,8 @@
   /* ── Tablette ── */
   @media(max-width:768px){
     .nav-links{display:none}
-    .nav-cta .btn-outline{display:none !important}
+    .nav-burger{display:flex}
+    .nav-desktop-only{display:none !important}
     .hero-grid{grid-template-columns:1fr !important}
     .stats-inner{grid-template-columns:repeat(2,1fr)}
     .g-grid{grid-template-columns:1fr !important}
@@ -292,10 +305,9 @@
   }
   /* ── Mobile ── */
   @media(max-width:480px){
-    .nav-logo{height:34px;width:auto;max-width:120px}
-    .nav-cta{gap:0}
-    .nav-cta .btn-outline{display:none !important}
-    .nav-cta .btn-primary{font-size:13px;padding:10px 16px}
+    .nav-logo{height:38px;width:auto}
+    .nav-cta{gap:8px}
+    .nav-cta .btn-primary{font-size:13px;padding:10px 14px;white-space:nowrap}
     .hero-title{font-size:clamp(26px,7vw,38px) !important}
     .hero-sub{font-size:15px !important}
     .hero-ctas{flex-direction:column;gap:10px}
@@ -332,19 +344,29 @@
 
 
 <!-- HEADER -->
-<header class="nav">
+<header class="nav" id="mainNav">
   <div class="container nav-inner">
     <a href="#" aria-label="Alexis Assurances"><img class="nav-logo" src="ALEXIS ASSURANCES LOGO_bleu_long.svg" alt="Alexis Assurances" loading="eager"></a>
-    <nav class="nav-links">
+    <nav class="nav-links" id="navLinks">
       <a href="#garanties">Garanties</a>
       <a href="#process">Comment ça marche</a>
       <a href="#benefices">Pourquoi Alexis Assurances</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-cta">
-      <a href="deja-assure.html" class="btn btn-outline" style="font-size:13px;padding:8px 18px;white-space:nowrap">Je suis déjà assuré(e)</a>
+      <a href="deja-assure.html" class="btn btn-outline nav-desktop-only" style="font-size:13px;padding:8px 18px;white-space:nowrap">Je suis déjà assuré(e)</a>
       <a class="btn btn-primary" href="#devis">Obtenir mon devis</a>
+      <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </div>
+  <div class="nav-mobile-menu" id="navMobileMenu">
+    <a href="#garanties" class="nav-mobile-link">Garanties</a>
+    <a href="#process" class="nav-mobile-link">Comment ça marche</a>
+    <a href="#benefices" class="nav-mobile-link">Pourquoi Alexis Assurances</a>
+    <a href="#faq" class="nav-mobile-link">FAQ</a>
+    <a href="deja-assure.html" class="nav-mobile-link nav-mobile-already">Je suis déjà assuré(e)</a>
   </div>
 </header>
 
@@ -1022,6 +1044,27 @@ applyState();
   } else {
     init();
   }
+})();
+</script>
+
+<script>
+(function(){
+  var burger = document.getElementById('navBurger');
+  var menu = document.getElementById('navMobileMenu');
+  if(!burger||!menu) return;
+  burger.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+  });
+  // Close menu when a link is clicked
+  menu.querySelectorAll('.nav-mobile-link').forEach(function(link){
+    link.addEventListener('click', function(){
+      menu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
 })();
 </script>
 </body></html>
